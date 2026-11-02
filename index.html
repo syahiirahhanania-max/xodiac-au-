@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171a18">
+  <title>Akses Jakarta — AU XODIAC</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #171a18;
+      --panel: #202522;
+      --panel-raised: #292f2b;
+      --paper: #f2f0e9;
+      --muted: #a7afa8;
+      --line: #39413b;
+      --lime: #d7f36a;
+      --coral: #ff806b;
+      --mint: #a9dcc6;
+      --font: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--paper);
+      background:
+        radial-gradient(ellipse at 85% 12%, rgb(215 243 106 / 8%), transparent 30rem),
+        radial-gradient(ellipse at 5% 90%, rgb(255 128 107 / 7%), transparent 28rem),
+        var(--ink);
+      font-family: var(--font);
+    }
+
+    button { font: inherit; }
+
+    .page {
+      width: min(1120px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 28px clamp(18px, 5vw, 64px) 36px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--paper);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 10px;
+      aspect-ratio: 1;
+      background: var(--lime);
+      transform: rotate(45deg);
+      box-shadow: 0 0 18px rgb(215 243 106 / 45%);
+    }
+
+    .fiction-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+      align-items: center;
+      gap: clamp(36px, 8vw, 110px);
+      padding: clamp(38px, 7vh, 76px) 0;
+    }
+
+    .intro { max-width: 470px; }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 8ch;
+      margin: 0;
+      font-size: clamp(48px, 8vw, 88px);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    .dek {
+      max-width: 39ch;
+      margin: 24px 0 0;
+      color: #c3c9c1;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .case-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .case-note strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--paper);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .note-dot {
+      flex: 0 0 8px;
+      height: 8px;
+      margin-top: 5px;
+      border-radius: 50%;
+      background: var(--coral);
+      box-shadow: 0 0 12px rgb(255 128 107 / 60%);
+    }
+
+    .phone {
+      position: relative;
+      width: 100%;
+      max-width: 410px;
+      min-height: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #49514b;
+      border-radius: 28px;
+      background: #101311;
+      box-shadow: 0 30px 90px rgb(0 0 0 / 45%), 0 0 0 7px rgb(255 255 255 / 2%);
+      animation: arrive .65s ease-out both;
+    }
+
+    .phone-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 50px;
+      padding: 0 20px;
+      border-bottom: 1px solid #2a302c;
+      color: #bdc5bd;
+      font-size: 11px;
+      letter-spacing: .04em;
+    }
+
+    .phone-top .status { color: var(--mint); }
+
+    .screen-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid #2a302c;
+      background: #191d1a;
+    }
+
+    .avatar {
+      display: grid;
+      width: 38px;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--lime);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .screen-heading strong { display: block; font-size: 13px; }
+    .screen-heading span { color: var(--muted); font-size: 11px; }
+
+    .feed {
+      min-height: 260px;
+      padding: 22px 18px 12px;
+      background-image: radial-gradient(#303833 0.7px, transparent .7px);
+      background-size: 14px 14px;
+    }
+
+    .stamp {
+      width: fit-content;
+      margin: 0 auto 18px;
+      padding: 6px 9px;
+      border: 1px solid #353d37;
+      border-radius: 99px;
+      background: #1d221e;
+      color: #aeb7af;
+      font-size: 10px;
+      letter-spacing: .04em;
+    }
+
+    .bubble {
+      width: fit-content;
+      max-width: 89%;
+      margin: 0 0 10px;
+      padding: 12px 14px;
+      border: 1px solid #333b35;
+      border-radius: 4px 15px 15px 15px;
+      background: #252b27;
+      color: #eff1eb;
+      font-size: 13px;
+      line-height: 1.55;
+      animation: appear .28s ease-out both;
+    }
+
+    .bubble .sender {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--mint);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .bubble.user {
+      margin-left: auto;
+      border-color: #697537;
+      border-radius: 15px 4px 15px 15px;
+      background: #343d24;
+    }
+
+    .bubble.alert {
+      border-color: #70463e;
+      background: #362521;
+    }
+
+    .bubble.alert .sender { color: var(--coral); }
+
+    .choice-area {
+      padding: 16px 18px 20px;
+      border-top: 1px solid #2a302c;
+      background: #171b18;
+    }
+
+    .prompt {
+      margin: 0 0 12px;
+      color: #aeb7af;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .choices { display: grid; gap: 8px; }
+
+    .choice {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 12px;
+      border: 1px solid #3a433c;
+      border-radius: 10px;
+      background: #222824;
+      color: var(--paper);
+      cursor: pointer;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: left;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+
+    .choice:hover, .choice:focus-visible {
+      border-color: var(--lime);
+      background: #2b3328;
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .choice:focus-visible { box-shadow: 0 0 0 3px rgb(215 243 106 / 20%); }
+
+    .choice-key {
+      flex: 0 0 22px;
+      display: grid;
+      width: 22px;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 6px;
+      background: #384132;
+      color: var(--lime);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .phone-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px 17px;
+      background: #171b18;
+      color: #7f8981;
+      font-size: 10px;
+    }
+
+    .restart {
+      padding: 5px 0;
+      border: 0;
+      background: transparent;
+      color: var(--lime);
+      cursor: pointer;
+      font-size: 10px;
+    }
+
+    .restart:hover, .restart:focus-visible { text-decoration: underline; }
+    .restart:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: #849087;
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 760px) {
+      .page { padding-top: 20px; }
+      main {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 38px 0 30px;
+      }
+      .intro { max-width: 560px; }
+      h1 { font-size: clamp(54px, 16vw, 78px); }
+      .dek { margin-top: 16px; font-size: 14px; }
+      .case-note { margin-top: 20px; }
+      .phone { max-width: 440px; min-height: 0; }
+      .feed { min-height: 230px; }
+      footer { font-size: 9px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"></span> XODIAC / Cerita Interaktif</div>
+      <div class="fiction-label">Semesta alternatif · fiksi</div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="story-title">
+        <p class="eyebrow">Jakarta · H-1 fancon</p>
+        <h1 id="story-title">Akses<br>Jakarta</h1>
+        <p class="dek">Persiapan fancon berjalan sampai larut. Grup produksi ramai, daftar cek belum selesai, dan ponselmu mulai menerima pesan yang seharusnya tidak ada.</p>
+        <div class="case-note">
+          <span class="note-dot" aria-hidden="true"></span>
+          <div><strong>Catatan cerita</strong>Semua pesan dan peringatan di layar ini adalah bagian dari cerita fiksi. Tidak ada akses sungguhan ke perangkatmu.</div>
+        </div>
+      </section>
+
+      <section class="phone" aria-label="Cerita interaktif dalam tampilan ponsel">
+        <div class="phone-top"><span>00:17&nbsp;&nbsp; KAM, 14 JUN</span><span class="status">● TERHUBUNG</span></div>
+        <div class="screen-heading">
+          <div class="avatar" aria-hidden="true">XD</div>
+          <div><strong>Tim Fancon Jakarta</strong><span>Grup produksi · 9 anggota</span></div>
+        </div>
+        <div id="feed" class="feed" role="log" aria-live="polite" aria-relevant="additions text"></div>
+        <div class="choice-area">
+          <p id="prompt" class="prompt"></p>
+          <div id="choices" class="choices"></div>
+        </div>
+        <div class="phone-bottom"><span id="progress">BAB 1 · PERSIAPAN</span><button id="restart" class="restart" type="button">Mulai ulang ↺</button></div>
+      </section>
+    </main>
+
+    <footer><span>AU XODIAC · Menjelang fancon Indonesia</span><span>Pilih tindakan untuk melanjutkan</span></footer>
+  </div>
+
+  <script>
+    const story = {
+      start: {
+        stamp: '00.17 · Grup produksi',
+        messages: [
+          { sender: 'Manajer', text: 'Besok kumpul pukul 08.00. Cek ulang rundown fancon dan daftar barang panggung sebelum tidur.' },
+          { sender: 'Kamu', text: 'Siap. File rundown final sudah aku terima.' , user: true },
+          { sender: 'Sistem', text: 'Perangkat baru terhubung ke akun grup.', alert: true },
+          { sender: 'Nomor tidak dikenal', text: 'Jangan biarkan mereka tampil besok.', alert: true }
+        ],
+        prompt: 'Notifikasi itu muncul tepat setelah kamu mengunduh rundown. Apa yang kamu lakukan?',
+        choices: [
+          { label: 'Hubungi Zayyan lewat grup resmi', next: 'zayyan' },
+          { label: 'Buka rincian file rundown', next: 'file' },
+          { label: 'Simpan bukti, lalu beri tahu manajer', next: 'manager' }
+        ]
+      },
+      zayyan: {
+        stamp: '00.19 · Pesan terkirim',
+        messages: [
+          { sender: 'Kamu', text: 'Zayyan, ada yang aneh di akun grup. Kalian aman di hotel?', user: true },
+          { sender: 'Zayyan', text: 'Kami semua di hotel. Jangan klik tautan apa pun. Aku akan minta manajer memastikan akun grup.' },
+          { sender: 'Nomor tidak dikenal', text: 'Bagus. Sekarang kamu tahu harus curiga pada siapa.', alert: true }
+        ],
+        prompt: 'Balasan itu masuk dari akun resmi Zayyan, tetapi pesan asing kembali muncul.',
+        choices: [
+          { label: 'Telepon Zayyan lewat kontak yang tersimpan', next: 'call' },
+          { label: 'Keluar dari grup dan cari bantuan langsung', next: 'ending-safe' }
+        ]
+      },
+      file: {
+        stamp: '00.20 · Rincian berkas',
+        messages: [
+          { sender: 'Ponsel', text: 'Berkas: RUN_OF_SHOW_FINAL.pdf · Diterima dari: Tim Fancon Jakarta' },
+          { sender: 'Sistem', text: 'Pratinjau berkas gagal dimuat. Ada satu lampiran yang tidak tercantum di daftar.' , alert: true },
+          { sender: 'Kamu', text: 'Aku tidak akan membuka lampiran itu.', user: true }
+        ],
+        prompt: 'Nama file terlihat benar. Tapi lampiran asing itu tidak ada di rundown yang dikirim manajer.',
+        choices: [
+          { label: 'Jangan buka lampiran; kirim tangkapan layar ke manajer', next: 'manager' },
+          { label: 'Tutup berkas dan telepon Zayyan', next: 'call' }
+        ]
+      },
+      manager: {
+        stamp: '00.22 · Manajer membalas',
+        messages: [
+          { sender: 'Kamu', text: 'Ada perangkat asing di akun grup. Aku tidak membuka tautan atau lampiran.', user: true },
+          { sender: 'Manajer', text: 'Terima kasih sudah memberi tahu. Jangan kirim data pribadi. Kami sedang memeriksa akun dan akan hubungi tim keamanan.' },
+          { sender: 'Sistem', text: 'Sesi grup produksi dijeda oleh admin.', alert: true }
+        ],
+        prompt: 'Akun grup berhasil dijeda. Namun, kamu masih perlu memastikan semua anggota tahu soal pesan itu.',
+        choices: [
+          { label: 'Telepon Zayyan memakai nomor yang sudah tersimpan', next: 'call' },
+          { label: 'Ikuti arahan manajer dan tunggu di lobi hotel', next: 'ending-safe' }
+        ]
+      },
+      call: {
+        stamp: '00.24 · Panggilan terverifikasi',
+        messages: [
+          { sender: 'Zayyan', text: 'Aku sendiri yang bicara. Kami baik-baik saja. Manajer sudah menerima laporanmu.' },
+          { sender: 'Kamu', text: 'Ada lampiran asing di file rundown. Aku tidak membukanya.', user: true },
+          { sender: 'Zayyan', text: 'Bagus. Besok kita cek jadwal dari salinan resmi. Fancon tetap berjalan, tapi kita lakukan dengan tenang dan hati-hati.' }
+        ],
+        prompt: 'Suasana mulai tenang. Pagi datang, dan tim berkumpul untuk mengecek persiapan terakhir.',
+        choices: [
+          { label: 'Lanjut ke pagi hari fancon', next: 'ending-show' },
+          { label: 'Tunggu bersama tim di lobi hotel', next: 'ending-safe' }
+        ]
+      },
+      'ending-show': {
+        stamp: '08.05 · Hari fancon',
+        messages: [
+          { sender: 'Manajer', text: 'Semua perangkat sudah diperiksa. Rundown resmi sudah dibagikan ulang langsung oleh tim.' },
+          { sender: 'Zayyan', text: 'Siap? Hari ini kita bertemu penggemar Indonesia.' },
+          { sender: 'Kamu', text: 'Siap. Sampai jumpa di venue!', user: true },
+          { sender: 'Akhir cerita', text: 'Panggung dibuka sesuai jadwal. Malam yang penuh pesan mencurigakan berubah menjadi hari debut yang tak terlupakan.' }
+        ],
+        prompt: 'AKHIR 1 · Fancon berlangsung. Kamu tetap waspada, dan semua orang sampai di panggung dengan aman.',
+        choices: [ { label: 'Baca cerita lagi', next: 'start' } ]
+      },
+      'ending-safe': {
+        stamp: '00.41 · Tim berkumpul',
+        messages: [
+          { sender: 'Manajer', text: 'Semua anggota sudah dikonfirmasi lewat panggilan langsung. Akun grup sedang diamankan.' },
+          { sender: 'Zayyan', text: 'Terima kasih sudah tidak mengambil risiko. Kita cek ulang semuanya bersama besok pagi.' },
+          { sender: 'Akhir cerita', text: 'Malam itu berakhir dengan rencana yang jelas. Persiapan fancon dilanjutkan setelah tim memastikan semua aman.' }
+        ],
+        prompt: 'AKHIR 2 · Kamu memilih tetap bersama tim dan mengikuti langkah aman.',
+        choices: [ { label: 'Baca cerita lagi', next: 'start' } ]
+      }
+    };
+
+    const feed = document.querySelector('#feed');
+    const prompt = document.querySelector('#prompt');
+    const choices = document.querySelector('#choices');
+    const progress = document.querySelector('#progress');
+
+    function render(sceneId) {
+      const scene = story[sceneId];
+      feed.replaceChildren();
+
+      const stamp = document.createElement('div');
+      stamp.className = 'stamp';
+      stamp.textContent = scene.stamp;
+      feed.append(stamp);
+
+      for (const message of scene.messages) {
+        const bubble = document.createElement('div');
+        bubble.className = `bubble${message.user ? ' user' : ''}${message.alert ? ' alert' : ''}`;
+        const sender = document.createElement('span');
+        sender.className = 'sender';
+        sender.textContent = message.sender;
+        const text = document.createElement('span');
+        text.textContent = message.text;
+        bubble.append(sender, text);
+        feed.append(bubble);
+      }
+
+      prompt.textContent = scene.prompt;
+      choices.replaceChildren();
+      scene.choices.forEach((choice, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'choice';
+        button.addEventListener('click', () => render(choice.next));
+
+        const key = document.createElement('span');
+        key.className = 'choice-key';
+        key.setAttribute('aria-hidden', 'true');
+        key.textContent = String.fromCharCode(65 + index);
+        const label = document.createElement('span');
+        label.textContent = choice.label;
+        button.append(key, label);
+        choices.append(button);
+      });
+
+      progress.textContent = sceneId.startsWith('ending') ? 'CERITA SELESAI' : 'BAB 1 · PERSIAPAN';
+      feed.scrollTop = feed.scrollHeight;
+    }
+
+    document.querySelector('#restart').addEventListener('click', () => render('start'));
+    render('start');
+  </script>
+</body>
+</html>
